@@ -11,7 +11,7 @@
 
 [build.environment]
   # Node version to use for building
-  NODE_VERSION = "18"
+  NODE_VERSION = "20.9.0"
   
   # Next.js specific environment variables
   NEXT_TELEMETRY_DISABLED = "1"
