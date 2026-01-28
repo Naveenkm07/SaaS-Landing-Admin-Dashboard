@@ -1,0 +1,67 @@
+# Netlify configuration for SaaS Landing Dashboard
+# This file configures how your Next.js app builds and deploys on Netlify
+
+[build]
+  # Build command - runs when you deploy or when you trigger a build
+  command = "npm run build"
+  
+  # Publish directory - where the built files are located
+  # Next.js outputs to .next by default, but Netlify plugin handles this
+  publish = ".next"
+
+[build.environment]
+  # Node version to use for building
+  NODE_VERSION = "18"
+  
+  # Next.js specific environment variables
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# Next.js plugin configuration
+# This plugin handles Next.js specific optimizations like:
+# - Server-side rendering
+# - Image optimization
+# - API routes
+# - Static generation
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Redirects for auth-protected routes
+# These ensure users are redirected to login if they try to access protected pages
+[[redirects]]
+  from = "/dashboard/*"
+  to = "/login"
+  status = 302
+  force = true
+  conditions = {Role = ["anonymous"]}
+
+[[redirects]]
+  from = "/settings/*"
+  to = "/login"
+  status = 302
+  force = true
+  conditions = {Role = ["anonymous"]}
+
+[[redirects]]
+  from = "/api/auth/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# Headers for security and performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Edge functions for auth (if needed in future)
+# Uncomment when implementing edge functions for authentication
+# [[edge_functions]]
+#   function = "auth"
+#   path = "/api/auth/*"
