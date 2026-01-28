@@ -6,46 +6,10 @@ import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { PRICING_PLANS } from "@/lib/content/pricing";
+import { COPY } from "@/lib/content/copy";
 
 type Interval = "monthly" | "yearly";
-
-type Plan = {
-  name: "Free" | "Pro" | "Business";
-  monthly: number;
-  yearly: number;
-  description: string;
-  features: string[];
-  cta: string;
-  highlight?: boolean;
-};
-
-const plans: Plan[] = [
-  {
-    name: "Free",
-    monthly: 0,
-    yearly: 0,
-    description: "For trying the product with placeholder data.",
-    features: ["1 project", "Basic analytics", "Community support"],
-    cta: "Get started",
-  },
-  {
-    name: "Pro",
-    monthly: 19,
-    yearly: 190,
-    description: "For small teams that want more usage and insights.",
-    features: ["10 projects", "Advanced analytics", "Email support"],
-    cta: "Start trial",
-    highlight: true,
-  },
-  {
-    name: "Business",
-    monthly: 49,
-    yearly: 490,
-    description: "For growing orgs that need scale and controls.",
-    features: ["Unlimited projects", "SSO (stub)", "Priority support"],
-    cta: "Contact sales",
-  },
-];
 
 export function PricingSection({ title = "Pricing" }: { title?: string }) {
   const [interval, setInterval] = React.useState<Interval>("monthly");
@@ -58,7 +22,7 @@ export function PricingSection({ title = "Pricing" }: { title?: string }) {
             {title}
           </h2>
           <p className="mt-3 text-lg text-zinc-600 dark:text-zinc-400">
-            Placeholder prices to demonstrate a toggle and plan layout.
+            {COPY.pricing.explanation}
           </p>
         </div>
 
@@ -66,48 +30,63 @@ export function PricingSection({ title = "Pricing" }: { title?: string }) {
           <button
             type="button"
             className={cn(
-              "h-10 rounded-full px-4 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
+              "relative h-10 rounded-full px-4 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
               interval === "monthly"
-                ? "bg-foreground text-background"
+                ? "text-background"
                 : "text-zinc-700 hover:bg-black/5 dark:text-zinc-300 dark:hover:bg-white/10",
             )}
             aria-pressed={interval === "monthly"}
             onClick={() => setInterval("monthly")}
           >
-            Monthly
+            {interval === "monthly" ? (
+              <motion.span
+                layoutId="pricing-interval"
+                transition={{ type: "spring", stiffness: 450, damping: 36 }}
+                className="absolute inset-0 rounded-full bg-foreground"
+                aria-hidden="true"
+              />
+            ) : null}
+            <span className="relative z-10">Monthly</span>
           </button>
           <button
             type="button"
             className={cn(
-              "h-10 rounded-full px-4 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
+              "relative h-10 rounded-full px-4 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
               interval === "yearly"
-                ? "bg-foreground text-background"
+                ? "text-background"
                 : "text-zinc-700 hover:bg-black/5 dark:text-zinc-300 dark:hover:bg-white/10",
             )}
             aria-pressed={interval === "yearly"}
             onClick={() => setInterval("yearly")}
           >
-            Yearly
+            {interval === "yearly" ? (
+              <motion.span
+                layoutId="pricing-interval"
+                transition={{ type: "spring", stiffness: 450, damping: 36 }}
+                className="absolute inset-0 rounded-full bg-foreground"
+                aria-hidden="true"
+              />
+            ) : null}
+            <span className="relative z-10">Yearly</span>
           </button>
         </div>
       </div>
 
       <div className="mt-10 grid gap-4 lg:grid-cols-3">
-        {plans.map((p, idx) => {
-          const price = interval === "monthly" ? p.monthly : p.yearly;
+        {PRICING_PLANS.map((p, idx) => {
+          const price = interval === "monthly" ? p.priceMonthly : p.priceYearly;
           const suffix = interval === "monthly" ? "/mo" : "/yr";
 
           return (
             <motion.div
-              key={p.name}
+              key={p.key}
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.35, delay: idx * 0.05 }}
               className={cn(
                 "rounded-3xl border border-black/10 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-zinc-950",
-                p.highlight &&
-                  "ring-2 ring-foreground dark:ring-zinc-50",
+                p.highlight && "ring-2 ring-foreground dark:ring-zinc-50",
               )}
             >
               <div className="flex items-start justify-between gap-4">
@@ -144,7 +123,7 @@ export function PricingSection({ title = "Pricing" }: { title?: string }) {
               </ul>
 
               <div className="mt-8">
-                <Link href={p.name === "Business" ? "/contact" : "/auth/signup"}>
+                <Link href={p.key === "business" ? "/contact" : "/auth/signup"}>
                   <Button
                     className="w-full"
                     variant={p.highlight ? "primary" : "secondary"}

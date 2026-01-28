@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { COPY } from "@/lib/content/copy";
 
 const nav = [
   { href: "/features", label: "Features" },
@@ -34,7 +35,7 @@ export function SiteHeader() {
           <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-foreground text-background">
             P
           </span>
-          <span>Placeholder SaaS</span>
+          <span>{COPY.productName}</span>
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">

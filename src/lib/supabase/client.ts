@@ -1,9 +1,11 @@
 import { createClient } from "@supabase/supabase-js";
 
-export const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-export const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+import { authConfig, supabaseEnabled as supabaseEnabledFlag } from "@/lib/auth/config";
 
-export const supabaseEnabled = Boolean(supabaseUrl && supabaseAnonKey);
+export const supabaseUrl = authConfig.supabase.url;
+export const supabaseAnonKey = authConfig.supabase.anonKey;
+
+export const supabaseEnabled = supabaseEnabledFlag;
 
 export const supabase = supabaseEnabled
   ? createClient(supabaseUrl as string, supabaseAnonKey as string)

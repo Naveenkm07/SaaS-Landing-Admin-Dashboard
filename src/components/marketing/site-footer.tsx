@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { COPY } from "@/lib/content/copy";
+
 const links = [
   {
     title: "Product",
@@ -32,7 +34,7 @@ export function SiteFooter() {
         <div className="grid gap-10 md:grid-cols-4">
           <div className="space-y-3">
             <div className="text-base font-semibold tracking-tight">
-              Placeholder SaaS
+              {COPY.productName}
             </div>
             <p className="text-sm text-zinc-600 dark:text-zinc-400">
               Placeholder copy and dummy data only. Built as a modern SaaS demo.
@@ -61,7 +63,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-10 flex flex-col gap-3 border-t border-black/10 pt-6 text-sm text-zinc-600 dark:border-white/10 dark:text-zinc-400 sm:flex-row sm:items-center sm:justify-between">
-          <div>© {new Date().getFullYear()} Placeholder SaaS</div>
+          <div>© {new Date().getFullYear()} {COPY.productName}</div>
           <div>All content is placeholder.</div>
         </div>
       </div>

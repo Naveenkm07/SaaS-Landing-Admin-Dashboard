@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"),
   title: "Placeholder SaaS",
   description:
     "A modern, conversion-optimized SaaS landing page with an authenticated user dashboard (demo).",

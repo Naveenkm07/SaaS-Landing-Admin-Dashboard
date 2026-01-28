@@ -1,13 +1,51 @@
+import type { Metadata } from "next";
+
 import { FeatureComparisonTable } from "@/components/marketing/sections/comparison-table";
 import { FaqSection } from "@/components/marketing/sections/faq";
 import { FeatureHighlightsSection } from "@/components/marketing/sections/feature-highlights";
 import { HeroSection } from "@/components/marketing/sections/hero";
 import { LogosSection } from "@/components/marketing/sections/logos";
 import { PricingSection } from "@/components/marketing/sections/pricing";
+import { COPY } from "@/lib/content/copy";
+import { PRICING_PLANS } from "@/lib/content/pricing";
+
+export const metadata: Metadata = {
+  title: `${COPY.productName} · Landing`,
+  description: COPY.hero.subheading,
+  openGraph: {
+    title: `${COPY.productName} · Landing`,
+    description: COPY.hero.subheading,
+    images: ["/og.svg"],
+  },
+};
 
 export default function Home() {
+  const offers = PRICING_PLANS.map((p) => ({
+    "@type": "Offer",
+    name: p.name,
+    priceCurrency: "USD",
+    price: p.priceMonthly,
+    description: p.description,
+  }));
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: COPY.productName,
+    description: COPY.hero.subheading,
+    brand: {
+      "@type": "Brand",
+      name: COPY.productName,
+    },
+    offers,
+  };
+
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <HeroSection />
       <LogosSection />
       <FeatureHighlightsSection />

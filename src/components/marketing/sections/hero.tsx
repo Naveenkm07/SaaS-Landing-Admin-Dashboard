@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
+import { COPY } from "@/lib/content/copy";
 
 export function HeroSection() {
   return (
@@ -17,7 +18,7 @@ export function HeroSection() {
               transition={{ duration: 0.35 }}
               className="inline-flex rounded-full border border-black/10 bg-white px-4 py-2 text-sm text-zinc-700 shadow-sm dark:border-white/10 dark:bg-zinc-950 dark:text-zinc-300"
             >
-              Placeholder SaaS · conversion-ready template
+              {COPY.productName} · conversion-ready template
             </motion.p>
 
             <motion.h1
@@ -26,7 +27,7 @@ export function HeroSection() {
               transition={{ duration: 0.45 }}
               className="text-balance text-4xl font-semibold tracking-tight sm:text-5xl"
             >
-              Ship a clean landing page and dashboard in days, not weeks
+              {COPY.hero.headline}
             </motion.h1>
 
             <motion.p
@@ -35,8 +36,7 @@ export function HeroSection() {
               transition={{ duration: 0.45, delay: 0.05 }}
               className="max-w-xl text-pretty text-lg leading-8 text-zinc-600 dark:text-zinc-400"
             >
-              Placeholder copy and dummy metrics only. Includes auth stubs, a
-              responsive dashboard layout, and analytics charts.
+              {COPY.hero.subheading}
             </motion.p>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
